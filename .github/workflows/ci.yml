@@ -1,3 +1,28 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Tests, lint, and build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Scan for secrets
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/path:ro" \
+            zricethezav/gitleaks:v8.24.3 \
+            dir /path --redact --verbose
+
       - name: Scan source code with Semgrep
         run: |
           docker run --rm \
@@ -10,3 +35,24 @@
               --error \
               --metrics=off \
               .
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Scan dependencies
+        run: npm audit --audit-level=high
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Check application syntax
+        run: npm run build
