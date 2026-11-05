@@ -14,7 +14,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "express": "^5.3.0"
+    "express": "^5.3.0",
+    "lodash": "4.17.20"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
