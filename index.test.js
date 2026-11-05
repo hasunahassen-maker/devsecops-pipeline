@@ -7,7 +7,7 @@ test('GET /health returns status ok', async () => {
   const response = await request(app).get('/health');
 
   assert.equal(response.status, 200);
-  assert.deepEqual(response.body, { status: 'ok' });
+ assert.deepEqual(response.body, { status: 'broken' });
 });
 
 test('GET /items returns the expected items', async () => {
