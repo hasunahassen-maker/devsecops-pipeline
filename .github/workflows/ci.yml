@@ -15,7 +15,12 @@ jobs:
     steps:
       - name: Check out the code
         uses: actions/checkout@v4
-
+      - name: Scan for secrets
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/path:ro" \
+            zricethezav/gitleaks:v8.24.3 \
+            dir /path --redact --verbose
       - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
