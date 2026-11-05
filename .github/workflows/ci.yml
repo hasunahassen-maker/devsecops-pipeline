@@ -21,6 +21,13 @@ jobs:
             -v "${{ github.workspace }}:/path:ro" \
             zricethezav/gitleaks:v8.24.3 \
             dir /path --redact --verbose
+                  - name: Scan source code with Semgrep
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/src" \
+            -w /src \
+            semgrep/semgrep:latest \
+            semgrep scan --config p/javascript --error --metrics=off .
       - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
