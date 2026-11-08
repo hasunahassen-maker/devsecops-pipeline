@@ -30,5 +30,5 @@ test('GET /greet returns a greeting for the supplied name', async () => {
   const response = await request(app).get('/greet?name=Sam');
 
   assert.equal(response.status, 200);
-  assert.equal(response.text, 'Hello Broken');
+  assert.equal(response.text, 'Hello Sam');
 });
